@@ -134,7 +134,7 @@ namespace DHK_Easy_Flash_Card
             if (string.IsNullOrEmpty(OutputPath) || string.IsNullOrEmpty(ExcelPath) || string.IsNullOrEmpty(Front) || string.IsNullOrEmpty(Back))
                 return;
             MSWord.Application WordApp = new MSWord.Application();
-            WordApp.Visible = true;
+            WordApp.Visible = false;
 
             LoadExcelFile(true);
             CreateCard();
