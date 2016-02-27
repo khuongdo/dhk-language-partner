@@ -55,6 +55,7 @@ namespace DHK_Easy_Flash_Card
         private void btn_SavetoPdf_Click(object sender, RoutedEventArgs e)
         {
             ((MainViewModel)this.DataContext).CreatePDF();
+            MessageBox.Show("Done");
         }
 
         private void btn_Clear_Click(object sender, RoutedEventArgs e)

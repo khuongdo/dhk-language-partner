@@ -18,6 +18,7 @@ namespace DHK_Easy_Flash_Card
         private string _OutputPath;
         private string _SpecialField;
         private float _FrontFontSize;
+        private float _BackFontSize;
 
         public float FrontFontSize
         {
@@ -28,6 +29,18 @@ namespace DHK_Easy_Flash_Card
                 {
                     _FrontFontSize = value;
                     OnPropertyChanged("FrontFontSize");
+                }
+            }
+        }
+        public float BackFontSize
+        {
+            get { return _BackFontSize; }
+            set
+            {
+                if (value != _BackFontSize)
+                {
+                    _BackFontSize = value;
+                    OnPropertyChanged("BackFontSize");
                 }
             }
         }
@@ -97,7 +110,8 @@ namespace DHK_Easy_Flash_Card
         public MainViewModel()
         {
             CardSetCollection = new List<CardSetObject>();
-            FrontFontSize = 14f;
+            FrontFontSize = 35f;
+            BackFontSize = 17f;
         }
 
         public void LoadExcelFile(bool IsFirstLineHeader)
@@ -142,22 +156,27 @@ namespace DHK_Easy_Flash_Card
             //Write cards
             foreach (CardSetObject cardset in CardSetCollection)
             {
-                MSWord.Document WordDoc = WordApp.Documents.Add();
+                MSWord.Document WordDoc = WordApp.Documents.Add(Template:AppDomain.CurrentDomain.BaseDirectory + "\\FlashcardTemplate.dotx"
+                    );
                 //Pagesetup
                 WordDoc.PageSetup.PaperSize = MSWord.WdPaperSize.wdPaperA4;
-                WordDoc.PageSetup.LeftMargin = 28.3464567f;
-                WordDoc.PageSetup.RightMargin = 28.3464567f;
-                WordDoc.PageSetup.TopMargin = 28.3464567f;
-                WordDoc.PageSetup.BottomMargin = 28.3464567f;
+                WordDoc.PageSetup.Orientation = MSWord.WdOrientation.wdOrientPortrait;
+                WordDoc.PageSetup.LeftMargin = 14.1732f;
+                WordDoc.PageSetup.RightMargin = 14.1732f;
+                WordDoc.PageSetup.TopMargin = 14.1732f;
+                WordDoc.PageSetup.BottomMargin = 14.1732f;
                 //Calculate and insert table
                 int NumberOfRow = ((cardset.Cards.Count / 16 + 1) * 2) * 8;
                 MSWord.Table CurrTable;
                 CurrTable = WordDoc.Tables.Add(WordDoc.Range(0, 0), NumberOfRow, 2);
-                CurrTable.Borders.OutsideLineStyle = MSWord.WdLineStyle.wdLineStyleSingle;
-                CurrTable.Borders.InsideLineStyle = MSWord.WdLineStyle.wdLineStyleSingle;
-                CurrTable.Rows.Height = 96.378f;
+                CurrTable.AutoFitBehavior(MSWord.WdAutoFitBehavior.wdAutoFitWindow);
+                CurrTable.Borders.OutsideLineStyle = MSWord.WdLineStyle.wdLineStyleDot;
+                CurrTable.Borders.InsideLineStyle = MSWord.WdLineStyle.wdLineStyleDot;
+                CurrTable.Rows.Height = 100.6299f;
                 CurrTable.Rows.HeightRule = MSWord.WdRowHeightRule.wdRowHeightExactly;
                 CurrTable.Range.ParagraphFormat.Alignment = MSWord.WdParagraphAlignment.wdAlignParagraphCenter;
+                
+
                 int CardIndex = 0;
                 for (int row = 1; row <= NumberOfRow; row++)
                 {
@@ -176,19 +195,34 @@ namespace DHK_Easy_Flash_Card
                         {
                             break;
                         }
+
+                        //Front cell
                         CurrFrontCell.VerticalAlignment = MSWord.WdCellVerticalAlignment.wdCellAlignVerticalCenter;
                         CurrFrontCell.Range.InsertAfter(cardset.Cards[CardIndex].FrontSide);
                         CurrFrontCell.Range.Font.Bold = 1;
                         CurrFrontCell.Range.Font.Size = FrontFontSize;
+
+                        //Back cell
                         int BackSideCol = col == 1 ? 2 : 1;
-                        CurrTable.Cell(row + 8, BackSideCol).Range.InsertAfter(cardset.Cards[CardIndex].BackSide);
-                        CurrTable.Cell(row + 8, BackSideCol).VerticalAlignment = MSWord.WdCellVerticalAlignment.wdCellAlignVerticalCenter;
+                        var CurrBackCell = CurrTable.Cell(row + 8, BackSideCol);
+                        CurrBackCell.Range.InsertAfter(cardset.Cards[CardIndex].BackSide);
+                        CurrBackCell.Range.Font.Bold = 1;
+                        CurrBackCell.Range.Font.Size = BackFontSize;
+                        CurrBackCell.VerticalAlignment = MSWord.WdCellVerticalAlignment.wdCellAlignVerticalCenter;
                         CardIndex++;
                     }
                 }
-                WordDoc.ExportAsFixedFormat(Path.Combine(OutputPath, cardset.Name + ".pdf"), MSWord.WdExportFormat.wdExportFormatPDF, true);
+                
+                WordDoc.ExportAsFixedFormat(Path.Combine(OutputPath, cardset.Name + ".pdf"), MSWord.WdExportFormat.wdExportFormatPDF, Range:MSWord.WdExportRange.wdExportFromTo, From:1, To: CountDocumentNumberOfPages(WordDoc) - 1);
+                WordDoc.Close(MSWord.WdSaveOptions.wdDoNotSaveChanges);
             }
             WordApp.Quit(MSWord.WdSaveOptions.wdDoNotSaveChanges);
+        }
+
+        private int CountDocumentNumberOfPages(MSWord.Document Doc)
+        {
+            MSWord.WdStatistic stat = MSWord.WdStatistic.wdStatisticPages;
+            return Doc.ComputeStatistics(stat); 
         }
     }
 }

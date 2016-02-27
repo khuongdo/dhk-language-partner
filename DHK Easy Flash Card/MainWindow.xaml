@@ -18,9 +18,11 @@
         <TextBlock HorizontalAlignment="Left" Margin="10,58,0,0" TextWrapping="Wrap" Text="Output folder:" VerticalAlignment="Top"/>
         <Button Name="btn_BrwOutput" Click="btn_BrwOutput_Click" Content="Browse" HorizontalAlignment="Left" Height="22" Margin="221,79,0,0" VerticalAlignment="Top" Width="59" RenderTransformOrigin="0.492,-0.636"/>
         <TextBox HorizontalAlignment="Left" Height="22" Margin="10,217,0,0" TextWrapping="Wrap" Text="{Binding SpecialField, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="197"/>
-        <TextBlock HorizontalAlignment="Left" Margin="10,196,0,0" TextWrapping="Wrap" Text="Bold, UpperCase" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="10,196,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="Upper"/><Run Text=" "/><Run Text="Case"/></TextBlock>
         <TextBox HorizontalAlignment="Left" Height="23" Margin="221,126,0,0" TextWrapping="Wrap" Text="{Binding FrontFontSize,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="59"/>
         <TextBlock HorizontalAlignment="Left" Margin="221,105,0,0" TextWrapping="Wrap" Text="Font size:" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Height="22" Margin="221,169,0,0" TextWrapping="Wrap" Text="{Binding BackFontSize,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="59"/>
+        <TextBlock HorizontalAlignment="Left" Margin="221,153,0,0" TextWrapping="Wrap" Text="Font size:" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>

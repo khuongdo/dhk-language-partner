@@ -34,22 +34,30 @@ namespace DHK_Easy_Flash_Card
             {
                 FlashCardObject NewCard = new FlashCardObject();
                 //Add front side
-                string temp = "";
                 foreach (int i in ColumnsFrontInt)
                 {
+                    if (string.IsNullOrEmpty(row[i].ToString()))
+                        continue;
                     if (SpecialFieldInt.Contains(i))
                     {
-                        temp += row[i].ToString().ToUpper() + Environment.NewLine;
+                        NewCard.FrontSide += row[i].ToString().ToUpper() + Environment.NewLine;
                     }
                     else
                     {
-                        temp += row[i].ToString() + Environment.NewLine;
+                        NewCard.FrontSide += row[i].ToString() + Environment.NewLine;
                     }
                 }
-                NewCard.FrontSide = temp.Substring(0, temp.Count() - 2);
+                if (NewCard.FrontSide == null)
+                    continue;
+                if (NewCard.FrontSide.Length >= 2)
+                {
+                    NewCard.FrontSide = NewCard.FrontSide.Substring(0, NewCard.FrontSide.Count() - 2);
+                }
                 //Add back side
                 foreach (int j in ColumnsBackInt)
                 {
+                    if (string.IsNullOrEmpty(row[j].ToString()))
+                        continue;
                     if (SpecialFieldInt.Contains(j))
                     {
                         NewCard.BackSide += row[j].ToString().ToUpper() + Environment.NewLine;
@@ -59,7 +67,12 @@ namespace DHK_Easy_Flash_Card
                         NewCard.BackSide += row[j].ToString() + Environment.NewLine;
                     }
                 }
-                NewCard.BackSide = NewCard.BackSide.Substring(0, NewCard.BackSide.Count() - 2);
+                if (NewCard.BackSide == null)
+                    continue;
+                if (NewCard.BackSide.Length >= 2)
+                {
+                    NewCard.BackSide = NewCard.BackSide.Substring(0, NewCard.BackSide.Count() - 2);
+                }
                 Cards.Add(NewCard);
             }
         }
