@@ -180,8 +180,7 @@ namespace DHK_Easy_Flash_Card
             //Write cards
             foreach (CardSetObject cardset in CardSetCollection)
             {
-                MSWord.Document WordDoc = WordApp.Documents.Add(Template:AppDomain.CurrentDomain.BaseDirectory + "\\FlashcardTemplate.dotx"
-                    );
+                MSWord.Document WordDoc = WordApp.Documents.Add(Template:AppDomain.CurrentDomain.BaseDirectory + "\\FlashcardTemplate.dotx");
                 //Pagesetup
                 WordDoc.PageSetup.PaperSize = MSWord.WdPaperSize.wdPaperA4;
                 WordDoc.PageSetup.Orientation = MSWord.WdOrientation.wdOrientPortrait;
@@ -194,13 +193,13 @@ namespace DHK_Easy_Flash_Card
                 MSWord.Table CurrTable;
                 CurrTable = WordDoc.Tables.Add(WordDoc.Range(0, 0), NumberOfRow, 2);
                 CurrTable.AutoFitBehavior(MSWord.WdAutoFitBehavior.wdAutoFitWindow);
+                
                 CurrTable.Borders.OutsideLineStyle = MSWord.WdLineStyle.wdLineStyleDot;
                 CurrTable.Borders.InsideLineStyle = MSWord.WdLineStyle.wdLineStyleDot;
                 CurrTable.Rows.Height = 100.6299f;
                 CurrTable.Rows.HeightRule = MSWord.WdRowHeightRule.wdRowHeightExactly;
                 CurrTable.Range.ParagraphFormat.Alignment = MSWord.WdParagraphAlignment.wdAlignParagraphCenter;
-                
-
+                //WordApp.Visible = true;
                 int CardIndex = 0;
                 for (int row = 1; row <= NumberOfRow; row++)
                 {
@@ -236,7 +235,7 @@ namespace DHK_Easy_Flash_Card
                         CardIndex++;
                     }
                 }
-                
+                CurrTable.Columns.DistributeWidth();
                 WordDoc.ExportAsFixedFormat(Path.Combine(OutputPath, cardset.Name + ".pdf"), MSWord.WdExportFormat.wdExportFormatPDF, Range:MSWord.WdExportRange.wdExportFromTo, From:1, To: CountDocumentNumberOfPages(WordDoc) - 1);
                 WordDoc.Close(MSWord.WdSaveOptions.wdDoNotSaveChanges);
             }
