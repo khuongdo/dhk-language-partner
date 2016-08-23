@@ -36,7 +36,7 @@ namespace DHK_Easy_Flash_Card
                 //Add front side
                 foreach (int i in ColumnsFrontInt)
                 {
-                    if (string.IsNullOrEmpty(row[i].ToString()))
+                    if (string.IsNullOrEmpty(row[i].ToString()) || row[i].ToString() == "\r\n")
                         continue;
                     if (SpecialFieldInt.Contains(i))
                     {

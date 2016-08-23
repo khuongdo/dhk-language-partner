@@ -40,6 +40,8 @@ namespace DHK_Easy_Flash_Card
         private void btn_BrwOutput_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.Forms.FolderBrowserDialog dl = new System.Windows.Forms.FolderBrowserDialog();
+            if (!string.IsNullOrEmpty(((MainViewModel)this.DataContext).OutputPath))
+                dl.SelectedPath = ((MainViewModel)this.DataContext).OutputPath;
             if (dl.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 ((MainViewModel)this.DataContext).OutputPath = dl.SelectedPath;

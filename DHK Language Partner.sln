@@ -10,6 +10,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DHK TextToSpeech", "TextToSpeech\Presentation Layer\DHK TextToSpeech.csproj", "{33CA9026-A3B3-4C0F-9243-8310232C419C}"
 EndProject
 Project("{6141683F-8A12-4E36-9623-2EB02B2C2303}") = "SetupEasyFlashCard", "SetupEasyFlashCard\SetupEasyFlashCard.isproj", "{5EF182CB-B48C-4E6D-B2D4-C9D7F0F7A61B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C49F278D-166E-4FF0-A5B3-7D2EF6D2248A} = {C49F278D-166E-4FF0-A5B3-7D2EF6D2248A}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

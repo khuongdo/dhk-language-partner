@@ -28,4 +28,10 @@
 		</TaggedOutputs> -->
 	</ItemGroup>
 	<Import Project="$(MSBuildExtensionsPath32)\InstallShield\2015Limited\InstallShield.targets"/>
+	<ItemGroup>
+		<ProjectReference Include="..\DHK Easy Flash Card\DHK Easy Flash Card.csproj">
+			<Name>DHK Easy Flash Card</Name>
+			<Project>{C49F278D-166E-4FF0-A5B3-7D2EF6D2248A}</Project>
+		</ProjectReference>
+	</ItemGroup>
 </Project>

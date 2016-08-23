@@ -19,7 +19,21 @@ namespace DHK_Easy_Flash_Card
         private string _SpecialField;
         private float _FrontFontSize;
         private float _BackFontSize;
+        private bool _IsFirstLineLeader;
 
+
+        public bool IsFirstLineHeader
+        {
+            get { return _IsFirstLineLeader;}
+            set
+            {
+                if (value != _IsFirstLineLeader)
+                {
+                    _IsFirstLineLeader = value;
+                    OnPropertyChanged("IsFirstLineHeader");
+                }
+            }
+        }
         public float FrontFontSize
         {
             get { return _FrontFontSize; }
@@ -64,6 +78,7 @@ namespace DHK_Easy_Flash_Card
                 if (value != _ExcelPath)
                 {
                     _ExcelPath = value;
+                    OutputPath = Path.GetDirectoryName(_ExcelPath);
                     OnPropertyChanged("ExcelPath");
                 }
             }
@@ -112,9 +127,10 @@ namespace DHK_Easy_Flash_Card
             CardSetCollection = new List<CardSetObject>();
             FrontFontSize = 35f;
             BackFontSize = 17f;
+            IsFirstLineHeader = false;
         }
 
-        public void LoadExcelFile(bool IsFirstLineHeader)
+        public void LoadExcelFile()
         {
             FileStream stream = File.Open(ExcelPath, FileMode.Open, FileAccess.Read);
 
@@ -139,7 +155,15 @@ namespace DHK_Easy_Flash_Card
         {
             foreach (var item in CardSetCollection)
             {
-                item.CreateCard(Front, Back, SpecialField);
+                try
+                {
+                    item.CreateCard(Front, Back, SpecialField);
+
+                }
+                catch (Exception ex)
+                {
+                    System.Windows.MessageBox.Show(ex.Message);
+                }
             }
         }
 
@@ -150,7 +174,7 @@ namespace DHK_Easy_Flash_Card
             MSWord.Application WordApp = new MSWord.Application();
             WordApp.Visible = false;
 
-            LoadExcelFile(true);
+            LoadExcelFile();
             CreateCard();
 
             //Write cards
