@@ -10,10 +10,10 @@ namespace DHK_Easy_Flash_Card
     {
         public string FrontSide { get; set; }
         public string BackSide { get; set; }
-        public int FrontX { get; set; }
-        public int FrontY { get; set; }
-        public int BackX { get; set; }
-        public int BackY { get; set; }
+        //public int FrontX { get; set; }
+        //public int FrontY { get; set; }
+        //public int BackX { get; set; }
+        //public int BackY { get; set; }
 
         public FlashCardObject() { }
     }

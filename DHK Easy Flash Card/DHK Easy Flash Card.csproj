@@ -26,6 +26,7 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ProductName>EasyFlashCardDHK</ProductName>
     <PublisherName>Do Huu Khuong</PublisherName>
+    <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
     <ApplicationRevision>3</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
